@@ -1,0 +1,38 @@
+html {
+  box-sizing: border-box;
+}
+
+*, *::before, *::after {
+  box-sizing: inherit;
+}
+
+html {
+  height: 100%;
+  --body-bg-color: rgb(89, 84, 100);
+  --button-bg-color: rgb(213, 229, 250);
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100%;
+  margin: 0;
+  background-color: var(--body-bg-color);
+}
+
+.container {
+  display: flex;
+  flex-flow: column nowrap;
+  min-width: 300px;
+  max-width: 370px;
+  margin: 0 1rem;
+  border: 1px solid black;
+  border-radius: 15px 15px 0 0;
+}
+
+.backspace img {
+  display: block;
+  width: 50px;
+  height: 50px;
+}
