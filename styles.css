@@ -8,8 +8,9 @@ html {
 
 html {
   height: 100%;
-  --body-bg-color: rgb(89, 84, 100);
+  --body-bg-color: rgb(227, 230, 231);
   --button-bg-color: rgb(213, 229, 250);
+  --button-font-size: 1.5rem;
 }
 
 body {
@@ -28,7 +29,8 @@ body {
   max-width: 370px;
   margin: 0 1rem;
   border: 1px solid black;
-  border-radius: 15px 15px 0 0;
+  box-shadow: 3px 3px 10px 1px black;
+  border-radius: 15px;
 }
 
 .display {
@@ -39,11 +41,53 @@ body {
   background-color: white;
 }
 
+.buttons-wrapper {
+  display: grid;
+  grid-template-rows: repeat(5, 1fr);
+  grid-template-columns: repeat(4, 1fr);
+  min-height: 350px;
+  max-height: 450px;
+}
+
+button {
+  background-color: var(--button-bg-color);
+  border: 1px solid rgb(182, 202, 192);  
+  cursor: pointer;
+  font-size: var(--button-font-size);
+}
+
+button:hover {
+  border-color: rgb(50, 59, 54);
+  background-color: rgb(153, 242, 240);
+}
+
 .clear,
 .backspace {
   display: flex;
   justify-content: center;
   align-items: center;
+  background-color: rgb(245, 175, 180);
+}
+
+.clear:hover,
+.backspace:hover {
+  background-color: rgb(255, 72, 72);
+}
+
+.comma {
+  border-radius: 0 0 0 15px;
+}
+
+.add {
+  border-radius: 0 0 15px 0;
+}
+
+.equal {
+  background-color: rgb(153, 242, 240);
+}
+
+.equal:hover {
+  background-color: rgb(42, 250, 246);
 }
 
 img {
