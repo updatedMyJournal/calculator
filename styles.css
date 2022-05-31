@@ -58,7 +58,6 @@ body {
 .result {
   font-size: var(--result-font-size);
   font-style: oblique;
-  opacity: 0.8;
   visibility: hidden;
   min-height: 26px;
   margin-bottom: 20px;
@@ -97,6 +96,14 @@ button:hover {
   background-color: rgb(255, 105, 105);
 }
 
+.operator {
+  background-color: rgb(153, 242, 240);
+}
+
+.operator:hover {
+  background-color: rgb(42, 250, 246);
+}
+
 .comma {
   border-radius: 0 0 0 15px;
 }
@@ -105,17 +112,28 @@ button:hover {
   border-radius: 0 0 15px 0;
 }
 
-.equals {
-  background-color: rgb(153, 242, 240);
-}
-
-.equals:hover {
-  background-color: rgb(42, 250, 246);
-}
-
 img {
   display: block;
   object-fit: contain;
   width: 50px;
   height: 50px;
+}
+
+.rickroll {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  list-style: none;
+  text-decoration: none;
+  color: var(--button-bg-color);
+  background-color: var(--button-bg-color);
+  border: 1px solid rgb(182, 202, 192);  
+  grid-column: 2 / -2;
+}
+
+.rickroll:hover {
+  color: white;
+  font-size: var(--main-font-size);
+  background-color: rgb(213, 13, 13);
+  border-color: rgb(50, 59, 54);
 }
