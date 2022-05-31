@@ -25,6 +25,21 @@ let operand2 = null;
 let operator;
 let outputElem = document.querySelector('.output');
 let resultElem = document.querySelector('.result');
+let buttonsWrapperElem = document.querySelector('.buttons-wrapper');
+let clearButton = buttonsWrapperElem.querySelector('.clear');
+
+buttonsWrapperElem.onpointerup = (e) => {
+  let button = e.target.closest('button');
+  
+  if (!button) return;
+
+  if (button.classList.contains('clear')) {
+    clearDisplay();
+
+    return;
+  }
+
+};
 
 function display(value) {
   outputElem.textContent += value;
