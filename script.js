@@ -2,7 +2,11 @@ let mathMethods = {
   '+': (a, b) => a + b,
   '-': (a, b) => a - b,
   '×': (a, b) => a * b,
-  '÷': (a, b) => a / b,
+  '÷': (a, b) => {
+    if (b == 0) throw new DivByZeroError('Division by zero');
+
+    return a / b;
+  },
 };
 
 let stack = {
@@ -62,7 +66,12 @@ buttonsWrapperElem.onpointerup = (e) => {
     let result;
 
     if (stack.operand2 != null) {
-      result = operate(stack.operator, stack.operand1, stack.operand2);
+      try {
+        result = operate(stack.operator, stack.operand1, stack.operand2);
+      } catch(e) {
+        showErrorMessage('You can\'t divide by zero!');
+        return;
+      }
     } else if (stack.prev) {
       result = stack.operand1;
     } else {
@@ -96,7 +105,14 @@ buttonsWrapperElem.onpointerup = (e) => {
     if (stack.operand1 == null) return;
 
     if (stack.operand2 != null) {
-      let prevOperationResult = operate(stack.operator, stack.operand1, stack.operand2); 
+      let prevOperationResult; 
+
+      try {
+        prevOperationResult = operate(stack.operator, stack.operand1, stack.operand2);
+      } catch(e) {
+        showErrorMessage('You can\'t divide by zero!');
+        return;
+      }
       
       stack = { prev: stack };
       stack.operand1 = prevOperationResult;
@@ -110,6 +126,13 @@ buttonsWrapperElem.onpointerup = (e) => {
 
   display(button.value);
 };
+
+class DivByZeroError extends Error {
+  constructor(message) {
+    super(message);
+    this.name = this.constructor.name;
+  }
+}
 
 function operate(op, a, b) {
   return mathMethods[op](+a, +b);
@@ -140,6 +163,7 @@ function resetOutput() {
 function resetResult() {
   resultElem.textContent = '';
   resultElem.style.visibility = '';
+  resultElem.style.color = '';
 }
 
 function removeLastSymbolFromOutput() {
@@ -152,4 +176,11 @@ function getBackspacedText(value) {
   let text = String(value);
 
   return text.slice(0, text.length - 1);
+}
+
+function showErrorMessage(message = 'Error') {
+  clearDisplay();
+  showResult()
+  resultElem.style.color = 'red';
+  resultElem.textContent = message;
 }
