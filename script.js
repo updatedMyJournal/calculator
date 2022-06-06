@@ -68,8 +68,17 @@ buttonsWrapperElem.onpointerup = (e) => {
     if (stack.operand2 != null) {
       try {
         result = operate(stack.operator, stack.operand1, stack.operand2);
+
+        if (Number.isNaN(result)) {
+          throw new WrongExpressionError('Wrong expression');
+        }
       } catch(e) {
-        showErrorMessage('You can\'t divide by zero!');
+        if (e instanceof DivByZeroError) {
+          showErrorMessage('You can\'t divide by zero!');
+        } else if (e instanceof WrongExpressionError) {
+          showErrorMessage('Wrong expression');
+        }
+        
         return;
       }
     } else if (stack.prev) {
@@ -102,15 +111,28 @@ buttonsWrapperElem.onpointerup = (e) => {
   // operators
   if (button.classList.contains('operator')) {
 
-    if (stack.operand1 == null) return;
+    if (
+      stack.operand1 == null
+      || stack.operand1 == '.'
+      || stack.operand2 == '.'
+    ) return;
 
     if (stack.operand2 != null) {
       let prevOperationResult; 
 
       try {
         prevOperationResult = operate(stack.operator, stack.operand1, stack.operand2);
+
+        if (Number.isNaN(prevOperationResult)) {
+          throw new WrongExpressionError('Wrong expression');
+        }
       } catch(e) {
-        showErrorMessage('You can\'t divide by zero!');
+        if (e instanceof DivByZeroError) {
+          showErrorMessage('You can\'t divide by zero!');
+        } else if (e instanceof WrongExpressionError) {
+          showErrorMessage('Wrong expression');
+        }
+        
         return;
       }
       
@@ -124,10 +146,30 @@ buttonsWrapperElem.onpointerup = (e) => {
     } 
   }
 
+  // dot
+  if (button.classList.contains('dot')) {
+    if (stack.operator) {
+      if (stack.operand2 != null && String(stack.operand2).includes('.')) return;
+
+      stack.operand2 = addDot(stack.operand2);
+    } else {
+      if (stack.operand1 != null && String(stack.operand1).includes('.')) return;
+
+      stack.operand1 = addDot(stack.operand1);
+    }
+  }
+
   display(button.value);
 };
 
 class DivByZeroError extends Error {
+  constructor(message) {
+    super(message);
+    this.name = this.constructor.name;
+  }
+}
+
+class WrongExpressionError extends Error {
   constructor(message) {
     super(message);
     this.name = this.constructor.name;
@@ -183,4 +225,8 @@ function showErrorMessage(message = 'Error') {
   showResult()
   resultElem.style.color = 'red';
   resultElem.textContent = message;
+}
+
+function addDot(value) {
+  return value == null ? '.' : value + '.';
 }
