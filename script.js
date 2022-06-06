@@ -28,6 +28,33 @@ buttonsWrapperElem.onpointerup = (e) => {
     return;
   }
 
+  // backspace
+  if (button.classList.contains('backspace')) {
+    if (outputElem.textContent.length <= 0) return;
+
+    if (stack.operand2 != null) {
+      if (String(stack.operand2).length > 1) {
+        stack.operand2 = getBackspacedText(stack.operand2);
+      } else {
+        stack.operand2 = null;
+      }
+    } else if (stack.operator) {
+      if (stack.prev) {
+        stack = stack.prev;
+      } else {
+        stack.operator = null;
+      }
+    } else if (stack.operand1 != null) {
+      if (String(stack.operand1).length > 1) {
+        stack.operand1 = getBackspacedText(stack.operand1);
+      } else {
+        stack.operand1 = null;
+      }
+    }
+
+    removeLastSymbolFromOutput();
+  }
+
   resetResult();
 
   // equals
@@ -119,4 +146,10 @@ function removeLastSymbolFromOutput() {
   let text = outputElem.textContent;
 
   outputElem.textContent = text.slice(0, text.length - 1);
+}
+
+function getBackspacedText(value) {
+  let text = String(value);
+
+  return text.slice(0, text.length - 1);
 }
