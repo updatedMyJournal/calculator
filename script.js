@@ -69,7 +69,7 @@ buttonsWrapperElem.onpointerup = (e) => {
       try {
         result = operate(stack.operator, stack.operand1, stack.operand2);
 
-        if (Number.isNaN(result)) {
+        if (isNaN(result)) {
           throw new WrongExpressionError('Wrong expression');
         }
       } catch(e) {
@@ -78,7 +78,7 @@ buttonsWrapperElem.onpointerup = (e) => {
         } else if (e instanceof WrongExpressionError) {
           showErrorMessage('Wrong expression');
         }
-        
+
         return;
       }
     } else if (stack.prev) {
@@ -86,6 +86,8 @@ buttonsWrapperElem.onpointerup = (e) => {
     } else {
       return;
     }
+
+    if (!Number.isInteger(Number(result))) result = result.toFixed(2);
 
     setResult(result);
     showResult();
@@ -123,7 +125,7 @@ buttonsWrapperElem.onpointerup = (e) => {
       try {
         prevOperationResult = operate(stack.operator, stack.operand1, stack.operand2);
 
-        if (Number.isNaN(prevOperationResult)) {
+        if (isNaN(prevOperationResult)) {
           throw new WrongExpressionError('Wrong expression');
         }
       } catch(e) {
