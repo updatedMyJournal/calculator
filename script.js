@@ -65,7 +65,7 @@ buttonsWrapperElem.onpointerup = (e) => {
   if (button.classList.contains('equals')) {
     let result;
 
-    if (stack.operand2 != null) {
+    if (stack.operand2 != null && stack.operand2 != '-') {
       try {
         result = operate(stack.operator, stack.operand1, stack.operand2);
 
@@ -112,14 +112,22 @@ buttonsWrapperElem.onpointerup = (e) => {
 
   // operators
   if (button.classList.contains('operator')) {
-
-    if (
+    if (stack.operand1 == null && button.classList.contains('substract')) {
+      stack.operand1 = button.value;
+    } else if (
+      stack.operator
+      && stack.operand2 == null
+      && button.classList.contains('substract')
+    ) {
+      stack.operand2 = button.value;
+    } else if (
       stack.operand1 == null
+      || stack.operand1 == '-'
       || stack.operand1 == '.'
       || stack.operand2 == '.'
-    ) return;
-
-    if (stack.operand2 != null) {
+    ) {
+      return;
+    } else if (stack.operand2 != null) {
       let prevOperationResult; 
 
       try {
